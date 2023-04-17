@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Formulario de inicio de sesion</title>
+	 <link rel="stylesheet" href="style.css">
+	 <script src="jquery-3.2.1.min.js"></script>
+	 <script>
+         
+	$(document).ready(function() {
+      $("#btnsesion").click(function() {
+        $.ajax({
+          url: "sesion.php",
+          success: function(data) {
+            $("#detalle").text(data);
+          }
+        });
+      });
+    });
+
+		 function inisesion(){
+        var datos = $("#login-form").serialize();
+        $.ajax({
+          url:"sesion.php",
+          type:"POST",
+          cache:false,
+          data:datos,
+          error: function(){
+          
+          },
+          beforeSend:function(){
+            
+          },
+          success:function(resultado){
+           $("#detalle").html(resultado);
+          } 
+        }); 
+      }
+
+	</script>
+
+</head>
+<body>
+
+	
+
+	<form id="login-form" method="post">
+
+		<h2>Iniciar sesion</h2>
+
+		<label for="usuario">Usuario:</label>
+		<input type="text" id="usuario" name="usuario"><br><br>
+
+		<label for="contrasena">Contrasena:</label>
+		<input type="password" id="contrasena" name="contrasena"><br><br>
+
+		
+		<button type="submit"  value="sesion" id="btnsesion"  onClick="javascript:inisesion();">INICIAR SESION</button> 
+	</form>
+
+
+  <div style="margin-bottom: 20px;" class="div-detalle" id="detalle"></div>
+</body>
+</html>

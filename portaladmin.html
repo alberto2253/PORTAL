@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Inicio</title>
+  <link rel="stylesheet" href="style.css">
+<script src="jquery-3.2.1.min.js"></script>
+  
+  <script >
+
+    function validarFormulario() {
+          // Get all input fields
+          var inputs = document.getElementsByTagName('input');
+          var selects = document.getElementsByTagName('select');
+          var textareas = document.getElementsByTagName('textarea');
+
+     
+          for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].value.trim() === '') {
+              alert('Por favor, llene todos  campos.');
+              return false;
+            }
+          }
+
+
+          for (var i = 0; i < selects.length; i++) {
+            if (selects[i].value.trim() === '') {
+              alert('Por favor, llenar los campos.');
+              return false;
+            }
+          }
+
+          for (var i = 0; i < textareas.length; i++) {
+            if (textareas[i].value.trim() === '') {
+              alert('Por favor, llene los campos.');
+              return false;
+            }
+          }
+             enviar_detalle();
+          }
+     
+      function consultar(){
+        var datos = $("#portaladmin").serialize();
+        $.ajax({
+          url:"consultar_denuncias.php",
+          type:"POST",
+          cache:false,
+          data:datos,
+          error: function(){
+          
+          },
+          beforeSend:function(){
+            
+          },
+          success:function(resultado){
+           $("#denuncias").html(resultado);
+          } 
+        }); 
+      }
+      consultar();
+
+       function detalle(folio_denuncia){
+        var datos = $("#portaladmin").serialize();
+        $.ajax({
+          url:"detalle_denuncia.php",
+          type:"POST",
+          cache:false,
+          data:{id_denuncia:folio_denuncia},
+          error: function(){
+          
+          },
+          beforeSend:function(){
+            
+          },
+          success:function(resultado){
+           $("#detalle").html(resultado);
+          } 
+        }); 
+      }
+
+       function enviar_detalle(){
+        var datos = $("#portaladmin").serialize();
+        $.ajax({
+          url:"enviar_denuncia.php",
+          type:"POST",
+          cache:false,
+          data:datos,
+          error: function(){
+          alert("ERROR");
+          },
+          beforeSend:function(){
+            
+          },
+          success:function(resultado){
+            alert("GUARDADO");
+          } 
+        }); 
+      }
+ </script>
+
+
+ </head>
+ <body >
+  <header>
+  <ul>
+  <li><a href="index.html">Inicio</a></li>
+  <li><a href="portaldenuncias.html">Portal de denuncias</a></li>
+  <li><a href="Seguimientodenuncia.html">Seguimiento de denuncia</a></li>
+  <li><a href="portaladmin.html">Portal administrador</a></li>
+
+</ul>
+    <h1>Sistemas de denuncias</h1>
+
+
+  </header>
+<form id="portaladmin" method="POST" >
+
+  <div style="margin-bottom: 50px;" id="denuncias"></div>
+
+  <div style="margin-bottom: 20px;" class="div-detalle" id="detalle"></div>
+
+  </form>
+</body>
+</html>
